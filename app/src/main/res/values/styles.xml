@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="android:checkboxStyle">@style/RobotoCheckBoxStyle</item>
+        <item name="android:editTextStyle">@style/RobotoEditTextStyle</item>
+        <item name="android:radioButtonStyle">@style/RobotoRadioButtonStyle</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Material.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoCheckBoxStyle" parent="android:Widget.Material.CompoundButton.CheckBox">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoEditTextStyle" parent="android:Widget.Material.EditText">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoRadioButtonStyle" parent="android:Widget.Material.CompoundButton.RadioButton">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.Material.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+</resources>
