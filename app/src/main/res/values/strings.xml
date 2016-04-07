@@ -4,4 +4,13 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="name_of_university">Magdalena\'s University</string>
     <string name="info_of_developer">Alberto Rosentiehl - 2012114114</string>
+    <string name="calculator">Calculator</string>
+    <string name="gallery">Gallery</string>
+    <string name="player">Player</string>
+    <string name="explorer">Explorer</string>
+    <string name="sd_card">SD Card</string>
+    <string name="sqLite">SQLite</string>
+    <string name="web_service">Web Service</string>
+    <string name="maps">Maps</string>
+    <string name="title_activity_calculator">Calculator</string>
 </resources>

@@ -16,46 +16,25 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/bCalculator"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="Calculator"
+            android:text="@string/calculator"
             android:textColor="@color/background_light" />
 
         <Button
+            android:id="@+id/bGallery"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="Gallery"
-            android:textColor="@color/background_light" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:layout_weight="1">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_bar_style"
-            android:text="Reproductor"
-            android:textColor="@color/background_light" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_bar_style"
-            android:text="Explorer"
+            android:text="@string/gallery"
             android:textColor="@color/background_light" />
     </TableRow>
 
@@ -66,21 +45,25 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/bPlayer"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="SD Card"
+            android:text="@string/player"
             android:textColor="@color/background_light" />
 
         <Button
+            android:id="@+id/bExplorer"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="SQLite"
+            android:text="@string/explorer"
             android:textColor="@color/background_light" />
     </TableRow>
 
@@ -91,21 +74,54 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/bSDCard"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="Web Service"
+            android:text="@string/sd_card"
             android:textColor="@color/background_light" />
 
         <Button
+            android:id="@+id/bSQLite"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_bar_style"
-            android:text="Maps"
+            android:text="@string/sqLite"
+            android:textColor="@color/background_light" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/bWebService"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bar_style"
+            android:text="@string/web_service"
+            android:textColor="@color/background_light" />
+
+        <Button
+            android:id="@+id/bMaps"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bar_style"
+            android:text="@string/maps"
             android:textColor="@color/background_light" />
     </TableRow>
 
