@@ -13,9 +13,48 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:contentPadding="10dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:text="4*6/4*5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/primary_text_default_light"
+                    android:textSize="35sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:text="4*6/4*5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/secondary_text_light"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -34,6 +73,7 @@
                 android:layout_weight="1">
 
                 <Button
+                    android:id="@+id/bClearAll"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -52,7 +92,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text="("
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bLeftParenthesis" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -62,7 +103,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text=")"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bRightParenthesis" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -72,7 +114,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text="÷"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bDivision" />
             </TableRow>
 
             <TableRow
@@ -87,8 +130,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
                     android:text="7"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bSeven" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -97,8 +141,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
                     android:text="8"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bEight" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -107,8 +152,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
                     android:text="9"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bNine" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -118,7 +164,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text="×"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bMultiplication" />
             </TableRow>
 
             <TableRow
@@ -132,8 +179,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="4"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bFour" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -141,8 +190,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="5"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bFive" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -150,8 +201,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="6"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bSix" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -161,7 +214,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text="-"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bSubtract" />
             </TableRow>
 
             <TableRow
@@ -175,8 +229,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="1"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bOne" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -184,8 +240,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="2"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bTwo" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -193,8 +251,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="3"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bThree" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -204,7 +264,8 @@
                     android:background="@drawable/calculator_operations_button_style"
                     android:text="+"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bAdd" />
             </TableRow>
 
             <TableRow
@@ -218,8 +279,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="."
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bDot" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -227,17 +290,21 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:text="0"
+                    android:textColor="@color/background_dark"
+                    android:textSize="25sp"
+                    android:id="@+id/bZero" />
 
-                <Button
+                <ImageButton
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/calculator_numbers_button_style"
-                    android:text="@string/calculator"
-                    android:textColor="@color/colorPrimary" />
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_backspace_24dp"
+                    android:tint="@color/background_dark"
+                    android:id="@+id/bDelete" />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -247,7 +314,8 @@
                     android:background="@drawable/calculator_equal_button_style"
                     android:text="="
                     android:textColor="@color/background_light"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:id="@+id/bEqual" />
             </TableRow>
         </LinearLayout>
     </android.support.v7.widget.CardView>
