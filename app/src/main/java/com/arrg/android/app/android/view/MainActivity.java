@@ -1,15 +1,15 @@
-package com.arrg.android.app.android;
+package com.arrg.android.app.android.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.arrg.android.app.android.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,16 +17,23 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Bind(R.id.unimagdalena_logo)
+    ImageView logo;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @OnClick({R.id.bCalculator})
+    @OnClick({R.id.bCalculator, R.id.bPlayer})
     public void OnClick(View view) {
         int id = view.getId();
 
         switch (id){
             case R.id.bCalculator:
                 startActivity(new Intent(this, CalculatorActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+            case R.id.bPlayer:
+                startActivity(new Intent(this, MusicPlayerActivity.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
         }

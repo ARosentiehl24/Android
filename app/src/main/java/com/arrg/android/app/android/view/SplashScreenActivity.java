@@ -1,4 +1,4 @@
-package com.arrg.android.app.android;
+package com.arrg.android.app.android.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.arrg.android.app.android.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -35,10 +37,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
-            }, 500);
+            }, 250);
         }
     }
 

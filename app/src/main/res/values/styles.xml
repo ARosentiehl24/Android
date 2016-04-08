@@ -25,22 +25,22 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="RobotoButtonStyle" parent="android:Widget.Material.Button">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="RobotoCheckBoxStyle" parent="android:Widget.Material.CompoundButton.CheckBox">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="RobotoEditTextStyle" parent="android:Widget.Material.EditText">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="RobotoRadioButtonStyle" parent="android:Widget.Material.CompoundButton.RadioButton">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.Material.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>

@@ -13,4 +13,25 @@
     <string name="web_service">Web Service</string>
     <string name="maps">Maps</string>
     <string name="title_activity_calculator">Calculator</string>
+    <string name="c">C</string>
+    <string name="left_parenthesis">(</string>
+    <string name="right_parenthesis">)</string>
+    <string name="division_sign">÷</string>
+    <string name="number_7">7</string>
+    <string name="number_8">8</string>
+    <string name="number_9">9</string>
+    <string name="multiplication_sign">×</string>
+    <string name="number_4">4</string>
+    <string name="number_5">5</string>
+    <string name="number_6">6</string>
+    <string name="substract_sing">-</string>
+    <string name="number_1">1</string>
+    <string name="number_2">2</string>
+    <string name="number_3">3</string>
+    <string name="add_sign">+</string>
+    <string name="dot">.</string>
+    <string name="number_0">0</string>
+    <string name="equal_sign">=</string>
+    <string name="title_activity_music_player">Music Player</string>
+    <string name="unknown_album"><![CDATA[<Unknown>]]></string>
 </resources>

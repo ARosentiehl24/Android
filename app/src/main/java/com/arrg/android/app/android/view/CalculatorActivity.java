@@ -1,9 +1,11 @@
-package com.arrg.android.app.android;
+package com.arrg.android.app.android.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.arrg.android.app.android.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

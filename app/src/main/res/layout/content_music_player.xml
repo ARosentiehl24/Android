@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".view.MusicPlayerActivity"
+    tools:showIn="@layout/activity_music_player">
+
+    <ImageView
+        android:id="@+id/photoAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_music_player_default_cover" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/glass50" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/songs"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardCornerRadius="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/miniPhotoAlbum"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="5dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_music_player_default_cover" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/miniPhotoAlbum" />
+
+                <TextView
+                    android:id="@+id/nameOfTheSong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/divider"
+                    android:layout_toEndOf="@id/miniPhotoAlbum"
+                    android:text="New Text"
+                    android:textColor="@color/primary_text_default_light" />
+
+                <TextView
+                    android:id="@+id/artistName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/divider"
+                    android:layout_toEndOf="@id/miniPhotoAlbum"
+                    android:text="New Text"
+                    android:textColor="@color/primary_text_default_light"
+                    android:textSize="12.5sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_skip_previous_24dp" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_play_arrow_24dp" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_skip_next_24dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>
