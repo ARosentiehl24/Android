@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arrg.android.app.android.R;
 import com.arrg.android.app.android.model.Song;
@@ -99,8 +100,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         public void onClick(View v) {
             Song song = songs.get(getLayoutPosition());
 
-            MusicPlayerActivity musicPlayerActivity = (MusicPlayerActivity) activity;
-            musicPlayerActivity.updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+            if (song.getPhotoAlbum() == null) {
+                Toast.makeText(activity, "The bitmap is null.", Toast.LENGTH_SHORT).show();
+            } else {
+                MusicPlayerActivity musicPlayerActivity = (MusicPlayerActivity) activity;
+                musicPlayerActivity.updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.arrg.android.app.android.view;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -144,7 +145,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public void updateAlbumView(Bitmap photoAlbum, String artistName, String nameOfTheSong) {
-        //this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 25));
+        this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 25));
         this.miniPhotoAlbum.setImageBitmap(photoAlbum);
         this.artistName.setText(artistName);
         this.nameOfTheSong.setText(nameOfTheSong);
@@ -193,6 +194,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
                 if (file.getName().matches(FileUtils.MP3_REG)) {
                     Log.d("Folder", file.getAbsolutePath());
+
+                    MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                    mediaMetadataRetriever.setDataSource(file.getAbsolutePath());
+
+                    File cacheAlbum = new File(getCacheDir(), mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+
                     songList.add(new Song(file.getAbsolutePath()));
                 }
             }

@@ -47,6 +47,8 @@ import android.view.View;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -1702,4 +1704,26 @@ public final class BitmapUtil {
         return rotatedData;
     }
 
+    public static Boolean saveBitmapToFile(File path, String fileName, Bitmap bitmap, Bitmap.CompressFormat compressFormat, int quality) {
+        File imageFile = new File(path, fileName);
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(compressFormat, quality, fileOutputStream);
+            fileOutputStream.close();
+
+            return true;
+        } catch (IOException e) {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        return false;
+    }
 }
