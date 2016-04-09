@@ -1,11 +1,15 @@
 package com.arrg.android.app.android.view;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +26,7 @@ import com.afollestad.assent.PermissionResultSet;
 import com.arrg.android.app.android.R;
 import com.arrg.android.app.android.adapter.SongAdapter;
 import com.arrg.android.app.android.model.Song;
+import com.arrg.android.app.android.util.BitmapUtil;
 import com.arrg.android.app.android.util.FileUtils;
 import com.commit451.nativestackblur.NativeStackBlur;
 
@@ -145,7 +150,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public void updateAlbumView(Bitmap photoAlbum, String artistName, String nameOfTheSong) {
-        this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 25));
+        this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 5));
         this.miniPhotoAlbum.setImageBitmap(photoAlbum);
         this.artistName.setText(artistName);
         this.nameOfTheSong.setText(nameOfTheSong);
@@ -157,19 +162,21 @@ public class MusicPlayerActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            photoAlbum.setImageBitmap(NativeStackBlur.process(((BitmapDrawable) photoAlbum.getDrawable()).getBitmap(), 25));
+            photoAlbum.setImageBitmap(NativeStackBlur.process(((BitmapDrawable) photoAlbum.getDrawable()).getBitmap(), 5));
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             long startTime = System.currentTimeMillis();
 
-            for (File directory : fileArrayList) {
+            /*for (File directory : fileArrayList) {
                 if (directory.listFiles() != null) {
                     Log.d("FolderRoot", directory.getAbsolutePath());
                     loadFiles(directory);
                 }
-            }
+            }*/
+
+            loadFiles();
 
             long endTime = System.currentTimeMillis();
 
@@ -186,7 +193,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             setAdapter();
         }
 
-        public void loadFiles(File directory) {
+        /*public void loadFiles(File directory) {
             for (File file : directory.listFiles()) {
                 if (!file.isHidden() && isNotAnExcludedFolder(file) && file.listFiles() != null) {
                     loadFiles(file);
@@ -198,15 +205,87 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
                     mediaMetadataRetriever.setDataSource(file.getAbsolutePath());
 
-                    File cacheAlbum = new File(getCacheDir(), mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
+                    String album = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+                    String artist = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+
+                    File cacheAlbum = new File(getCacheDir(), album.replace(" ", "_") + "_" + artist.replace(" ", "_"));
+
+                    if (!cacheAlbum.exists()) {
+                        Log.d("FolderAlbum", MediaStore.Audio.Media.IS_MUSIC);
+
+                        Bitmap bitmap = BitmapUtil.getBitmapFromBytes(mediaMetadataRetriever.getEmbeddedPicture());
+                        BitmapUtil.saveBitmapToFile(cacheAlbum, bitmap, Bitmap.CompressFormat.PNG, 100);
+                    }
 
                     songList.add(new Song(file.getAbsolutePath()));
                 }
             }
-        }
+        }*/
 
         public boolean isNotAnExcludedFolder(File folder) {
             return !folder.getName().equals("Android");
+        }
+
+        private void loadFiles() {
+            String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
+            String[] projection = {
+                    MediaStore.Audio.Media.TITLE,
+                    MediaStore.Audio.Media.ARTIST,
+                    MediaStore.Audio.Media.DATA,
+                    MediaStore.Audio.Media.DISPLAY_NAME,
+                    MediaStore.Audio.Media.DURATION
+            };
+
+            String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
+
+            Cursor cursor = null;
+
+            try {
+                Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                cursor = getContentResolver().query(uri, projection, selection, null, sortOrder);
+
+                if (cursor != null) {
+                    cursor.moveToFirst();
+
+                    while (!cursor.isAfterLast()) {
+                        //MediaData media = new MediaData();
+                        String title = cursor.getString(0);
+                        String artist = cursor.getString(1);
+                        String path = cursor.getString(2);
+                        String displayName = cursor.getString(3);
+                        String songDuration = cursor.getString(4);
+
+                        Song song = new Song();
+
+                        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                        mediaMetadataRetriever.setDataSource(path);
+
+                        byte bitmap[] = mediaMetadataRetriever.getEmbeddedPicture();
+
+                        if (bitmap == null) {
+                            song.setPhotoAlbum(BitmapFactory.decodeResource(getResources(), R.drawable.ic_music_player_default_cover));
+                        } else {
+                            song.setPhotoAlbum(BitmapUtil.getBitmapFromByteArray(bitmap, 0, bitmap.length, 100, 100));
+                        }
+                        song.setNameOfTheSong(title);
+                        song.setArtistName(artist);
+                        song.setPathOfFile(path);
+
+                        songList.add(song);
+
+                        Log.d("Folder", title + " - " + artist + " - " + song.getPathOfFile());
+
+                        cursor.moveToNext();
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("Folder", e.toString(), e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
         }
 
         public void setAdapter() {
@@ -216,5 +295,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             songs.setHasFixedSize(true);
             songs.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
+
     }
 }

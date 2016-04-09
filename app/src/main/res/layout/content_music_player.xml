@@ -64,7 +64,7 @@
                     android:layout_above="@id/divider"
                     android:layout_toEndOf="@id/miniPhotoAlbum"
                     android:text="New Text"
-                    android:textColor="@color/primary_text_default_light" />
+                    android:textColor="@color/background_dark" />
 
                 <TextView
                     android:id="@+id/artistName"
@@ -73,7 +73,7 @@
                     android:layout_below="@id/divider"
                     android:layout_toEndOf="@id/miniPhotoAlbum"
                     android:text="New Text"
-                    android:textColor="@color/primary_text_default_light"
+                    android:textColor="@color/background_dark"
                     android:textSize="12.5sp" />
 
                 <LinearLayout
@@ -84,23 +84,27 @@
 
                     <ImageButton
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_skip_previous_24dp" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_play_arrow_24dp" />
 
                     <ImageButton
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_skip_next_24dp" />

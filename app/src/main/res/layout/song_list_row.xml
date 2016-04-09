@@ -53,5 +53,5 @@
         android:layout_height="0.25dp"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@id/photoAlbum"
-        android:background="@color/secondary_text_dark" />
+        android:background="@color/white_glass50" />
 </RelativeLayout>

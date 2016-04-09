@@ -1726,4 +1726,26 @@ public final class BitmapUtil {
 
         return false;
     }
+
+    public static Boolean saveBitmapToFile(File imageFile, Bitmap bitmap, Bitmap.CompressFormat compressFormat, int quality) {
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(compressFormat, quality, fileOutputStream);
+            fileOutputStream.close();
+
+            return true;
+        } catch (IOException e) {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        return false;
+    }
 }

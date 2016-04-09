@@ -11,6 +11,12 @@
     <color name="glass50">#80000000</color>
     <color name="glass75">#BF000000</color>
 
+    <color name="white_glass10">#1AFAFAFA</color>
+    <color name="white_glass20">#33FAFAFA</color>
+    <color name="white_glass25">#4FAFAFA0</color>
+    <color name="white_glass50">#8FAFAFA0</color>
+    <color name="white_glass75">#BFFAFAFA</color>
+
     <!-- Social media and other company colors -->
     <eat-comment />
 
