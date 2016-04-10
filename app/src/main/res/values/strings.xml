@@ -34,4 +34,5 @@
     <string name="equal_sign">=</string>
     <string name="title_activity_music_player">Music Player</string>
     <string name="unknown_album"><![CDATA[<Unknown>]]></string>
+    <string name="wrong_expression_message">Expression is invalid.</string>
 </resources>

@@ -3,13 +3,16 @@ package com.arrg.android.app.android.view;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.arrg.android.app.android.R;
+
+import net.sourceforge.jeval.EvaluationException;
+import net.sourceforge.jeval.Evaluator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,17 +20,15 @@ import butterknife.OnClick;
 
 public class CalculatorActivity extends AppCompatActivity {
 
-    @Bind(R.id.bClearAll)
-    Button bClearAll;
+    private Boolean clear = false;
+    private Evaluator evaluator;
+    private String expression = "";
 
     @Bind(R.id.bLeftParenthesis)
     Button bLeftParenthesis;
 
     @Bind(R.id.bRightParenthesis)
     Button bRightParenthesis;
-
-    @Bind(R.id.bDivision)
-    Button bDivision;
 
     @Bind(R.id.bSeven)
     Button bSeven;
@@ -37,9 +38,6 @@ public class CalculatorActivity extends AppCompatActivity {
 
     @Bind(R.id.bNine)
     Button bNine;
-
-    @Bind(R.id.bMultiplication)
-    Button bMultiplication;
 
     @Bind(R.id.bFour)
     Button bFour;
@@ -71,12 +69,6 @@ public class CalculatorActivity extends AppCompatActivity {
     @Bind(R.id.bZero)
     Button bZero;
 
-    @Bind(R.id.bDelete)
-    ImageButton bDelete;
-
-    @Bind(R.id.bEqual)
-    Button bEqual;
-
     @Bind(R.id.equation)
     TextView equation;
 
@@ -91,47 +83,97 @@ public class CalculatorActivity extends AppCompatActivity {
     public void OnClick(View view) {
         int id = view.getId();
 
+        if (clear) {
+            expression = "";
+            equation.setText("");
+
+            clear = false;
+        }
+
         switch (id) {
             case R.id.bClearAll:
+                answer.setText("");
+                equation.setText("");
+                expression = "";
                 break;
             case R.id.bLeftParenthesis:
+                concatText(bLeftParenthesis.getText().toString());
                 break;
             case R.id.bRightParenthesis:
+                concatText(bRightParenthesis.getText().toString());
                 break;
             case R.id.bDivision:
+                concatText("/");
                 break;
             case R.id.bSeven:
+                concatText(bSeven.getText().toString());
                 break;
             case R.id.bEight:
+                concatText(bEight.getText().toString());
                 break;
             case R.id.bNine:
+                concatText(bNine.getText().toString());
                 break;
             case R.id.bMultiplication:
+                concatText("*");
                 break;
             case R.id.bFour:
+                concatText(bFour.getText().toString());
                 break;
             case R.id.bFive:
+                concatText(bFive.getText().toString());
                 break;
             case R.id.bSix:
+                concatText(bSix.getText().toString());
                 break;
             case R.id.bSubtract:
+                concatText(bSubtract.getText().toString());
                 break;
             case R.id.bOne:
+                concatText(bOne.getText().toString());
                 break;
             case R.id.bTwo:
+                concatText(bTwo.getText().toString());
                 break;
             case R.id.bThree:
+                concatText(bThree.getText().toString());
                 break;
             case R.id.bAdd:
+                concatText(bAdd.getText().toString());
                 break;
             case R.id.bDot:
+                concatText(bDot.getText().toString());
                 break;
             case R.id.bZero:
+                concatText(bZero.getText().toString());
                 break;
             case R.id.bDelete:
+                if (expression.length() != 0) {
+                    equation.setText(expression.substring(0, expression.length() - 1));
+                    expression = equation.getText().toString();
+                } else if (expression.length() == 0) {
+                    answer.setText("");
+                }
                 break;
             case R.id.bEqual:
+                expression = "";
+                equation.setText(answer.getText());
+                answer.setText("");
+
+                clear = true;
+
                 break;
+        }
+
+        if (expression.length() == 0) {
+            answer.setText("");
+        } else {
+            try {
+                answer.setText(evaluator.evaluate(expression));
+            } catch (EvaluationException e) {
+                Log.e("Expression", getString(R.string.wrong_expression_message));
+                e.printStackTrace();
+            }
         }
     }
 
@@ -143,6 +185,8 @@ public class CalculatorActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        evaluator = new Evaluator();
     }
 
     @Override
@@ -168,6 +212,26 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void concatText(String text) {
-        equation.setText(equation.getText().toString().concat(text));
+
+        if (expression.length() != 0) {
+            if (isAMathematicalSign(lastIndexOf(text)) && isAMathematicalSign(lastIndexOf(expression))) {
+                expression = expression.substring(0, expression.length() - 1);
+            }
+
+            if (text.equals("(") && (!isAMathematicalSign(lastIndexOf(expression)))) {
+                expression += "*";
+            }
+        }
+
+        expression += text;
+        equation.setText(expression);
+    }
+
+    public char lastIndexOf(String expression) {
+        return expression.charAt(expression.length() - 1);
+    }
+
+    public boolean isAMathematicalSign(char value) {
+        return value == '+' || value == '-' || value == '*' || value == '/';
     }
 }

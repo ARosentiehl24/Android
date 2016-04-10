@@ -27,10 +27,8 @@ import com.arrg.android.app.android.R;
 import com.arrg.android.app.android.adapter.SongAdapter;
 import com.arrg.android.app.android.model.Song;
 import com.arrg.android.app.android.util.BitmapUtil;
-import com.arrg.android.app.android.util.FileUtils;
 import com.commit451.nativestackblur.NativeStackBlur;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +37,6 @@ import butterknife.ButterKnife;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
-    private ArrayList<File> fileArrayList;
     private ArrayList<Song> songList;
     private static Activity activity;
 
@@ -74,7 +71,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fileArrayList = new ArrayList<>();
         songList = new ArrayList<>();
 
         if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
@@ -136,16 +132,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public void load() {
-        File internalStorage = new File(FileUtils.getInternalStorage());
-
-        if (internalStorage.listFiles() != null) {
-            fileArrayList.add(internalStorage);
-        }
-
-        if (FileUtils.externalStorageExists()) {
-            fileArrayList.add(new File(FileUtils.getExternalStorage()));
-        }
-
         new SearchFilesTask().execute();
     }
 
@@ -169,13 +155,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             long startTime = System.currentTimeMillis();
 
-            /*for (File directory : fileArrayList) {
-                if (directory.listFiles() != null) {
-                    Log.d("FolderRoot", directory.getAbsolutePath());
-                    loadFiles(directory);
-                }
-            }*/
-
             loadFiles();
 
             long endTime = System.currentTimeMillis();
@@ -191,39 +170,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             setAdapter();
-        }
-
-        /*public void loadFiles(File directory) {
-            for (File file : directory.listFiles()) {
-                if (!file.isHidden() && isNotAnExcludedFolder(file) && file.listFiles() != null) {
-                    loadFiles(file);
-                }
-
-                if (file.getName().matches(FileUtils.MP3_REG)) {
-                    Log.d("Folder", file.getAbsolutePath());
-
-                    MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                    mediaMetadataRetriever.setDataSource(file.getAbsolutePath());
-
-                    String album = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-                    String artist = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-
-                    File cacheAlbum = new File(getCacheDir(), album.replace(" ", "_") + "_" + artist.replace(" ", "_"));
-
-                    if (!cacheAlbum.exists()) {
-                        Log.d("FolderAlbum", MediaStore.Audio.Media.IS_MUSIC);
-
-                        Bitmap bitmap = BitmapUtil.getBitmapFromBytes(mediaMetadataRetriever.getEmbeddedPicture());
-                        BitmapUtil.saveBitmapToFile(cacheAlbum, bitmap, Bitmap.CompressFormat.PNG, 100);
-                    }
-
-                    songList.add(new Song(file.getAbsolutePath()));
-                }
-            }
-        }*/
-
-        public boolean isNotAnExcludedFolder(File folder) {
-            return !folder.getName().equals("Android");
         }
 
         private void loadFiles() {
