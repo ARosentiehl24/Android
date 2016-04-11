@@ -211,6 +211,8 @@ public class CalculatorActivity extends AppCompatActivity {
             equation.setText("");
 
             clear = false;
+        } else {
+            clear = false;
         }
 
         if (expression.length() != 0) {
@@ -233,5 +235,9 @@ public class CalculatorActivity extends AppCompatActivity {
 
     public boolean isAMathematicalSign(char value) {
         return value == '+' || value == '-' || value == '*' || value == '/';
+    }
+
+    public boolean isAMathematicalSignWithOutSubtract(char value) {
+        return value == '+' || value == '*' || value == '/';
     }
 }

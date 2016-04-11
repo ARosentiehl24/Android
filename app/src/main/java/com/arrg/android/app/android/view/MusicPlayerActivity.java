@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,10 +79,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
         switch (id) {
             case R.id.bPreviousTrack:
                 if (index > 0) {
-                    playSong(songAdapter.getSong(--index).getPathOfFile(), index);
+                    int index = this.index - 1;
 
-                    setColorTo(ContextCompat.getColor(this, R.color.background_light), index - 1);
-                    setColorTo(ContextCompat.getColor(this, R.color.holo_blue_bright), index);
+                    playSong(songAdapter.getSong(index).getPathOfFile(), index);
                 }
                 break;
             case R.id.bPlayStop:
@@ -103,10 +101,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 break;
             case R.id.bNextTrack:
                 if (index < songAdapter.getItemCount()) {
-                    playSong(songAdapter.getSong(++index).getPathOfFile(), index);
+                    int index = this.index + 1;
 
-                    setColorTo(ContextCompat.getColor(this, R.color.background_light), index + 1);
-                    setColorTo(ContextCompat.getColor(this, R.color.holo_blue_bright), index);
+                    playSong(songAdapter.getSong(index).getPathOfFile(), index);
                 }
                 break;
         }
@@ -127,17 +124,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         songList = new ArrayList<>();
 
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
+        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE) && !Assent.isPermissionGranted(Assent.RECORD_AUDIO)) {
             Assent.requestPermissions(new AssentCallback() {
                 @Override
                 public void onPermissionResult(PermissionResultSet result) {
-                    if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
+                    if (result.isGranted(Assent.WRITE_EXTERNAL_STORAGE) && result.isGranted(Assent.RECORD_AUDIO)) {
                         load();
                     } else {
                         finish();
                     }
                 }
-            }, 69, Assent.WRITE_EXTERNAL_STORAGE);
+            }, 69, Assent.WRITE_EXTERNAL_STORAGE, Assent.RECORD_AUDIO);
         } else {
             load();
         }
@@ -160,7 +157,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (isPlayServiceRunning() || playSong != null) {
-            playSong.onDestroy();
+            Intent play = new Intent(this, PlaySong.class);
+            stopService(play);
         } else {
             Intent play = new Intent(this, PlaySong.class);
             stopService(play);
@@ -216,7 +214,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public void playSong(String pathOfFile, int layoutPosition) {
-        setColorTo(R.color.background_light, index);
+        songAdapter.isPlaying(index, false);
+        //setColorTo(ContextCompat.getColor(this, R.color.background_light), index);
 
         index = layoutPosition;
 
@@ -232,9 +231,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         Song song = songAdapter.getSong(layoutPosition);
 
-        updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+        songAdapter.isPlaying(layoutPosition, true);
+        //setColorTo(ContextCompat.getColor(this, R.color.holo_blue_bright), layoutPosition);
 
-        setColorTo(R.color.holo_blue_bright, index);
+        updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
     }
 
     class SearchFilesTask extends AsyncTask<Void, Void, Void> {
@@ -335,9 +335,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
             songs.setHasFixedSize(true);
             songs.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-            Song song = songAdapter.getSong(0);
+            if (songAdapter.getItemCount() > 0) {
+                Song song = songAdapter.getSong(0);
 
-            updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+                updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+            }
         }
     }
 

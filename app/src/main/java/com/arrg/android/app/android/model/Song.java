@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 public class Song {
 
+    private Boolean isPlaying;
     private Bitmap photoAlbum;
     private String artistName;
     private String nameOfTheSong;
@@ -11,18 +12,19 @@ public class Song {
 
     public Song(String pathOfFile) {
         this.pathOfFile = pathOfFile;
+        this.isPlaying = false;
     }
 
     public Song() {
-
+        this.isPlaying = false;
     }
 
-    public String getPathOfFile() {
-        return pathOfFile;
+    public Boolean getPlaying() {
+        return isPlaying;
     }
 
-    public void setPathOfFile(String pathOfFile) {
-        this.pathOfFile = pathOfFile;
+    public void setPlaying(Boolean playing) {
+        isPlaying = playing;
     }
 
     public Bitmap getPhotoAlbum() {
@@ -47,5 +49,13 @@ public class Song {
 
     public void setNameOfTheSong(String nameOfTheSong) {
         this.nameOfTheSong = nameOfTheSong;
+    }
+
+    public String getPathOfFile() {
+        return pathOfFile;
+    }
+
+    public void setPathOfFile(String pathOfFile) {
+        this.pathOfFile = pathOfFile;
     }
 }

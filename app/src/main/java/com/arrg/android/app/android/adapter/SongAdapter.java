@@ -2,7 +2,9 @@ package com.arrg.android.app.android.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         holder.nameOfTheSong.setText(song.getNameOfTheSong());
         holder.artistName.setText(song.getArtistName());
         holder.photoAlbum.setImageBitmap(song.getPhotoAlbum());
+
+        if (song.getPlaying()) {
+            Log.d("IsPlaying", song.getNameOfTheSong() + " is playing.");
+
+            holder.nameOfTheSong.setTextColor(ContextCompat.getColor(activity, R.color.holo_blue_bright));
+            holder.artistName.setTextColor(ContextCompat.getColor(activity, R.color.holo_blue_bright));
+
+        } else {
+            holder.nameOfTheSong.setTextColor(ContextCompat.getColor(activity, R.color.background_light));
+            holder.artistName.setTextColor(ContextCompat.getColor(activity, R.color.background_light));
+
+        }
     }
 
     @Override
@@ -57,6 +71,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     public Song getSong(int index) {
         return songs.get(index);
+    }
+
+    public void isPlaying(int layoutPosition, boolean b) {
+        songs.get(layoutPosition).setPlaying(b);
+
+        notifyItemChanged(layoutPosition);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
