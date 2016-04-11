@@ -45,6 +45,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MainActivity" />
         </activity>
+
+        <service
+            android:name=".service.PlaySong"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

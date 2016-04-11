@@ -83,13 +83,6 @@ public class CalculatorActivity extends AppCompatActivity {
     public void OnClick(View view) {
         int id = view.getId();
 
-        if (clear) {
-            expression = "";
-            equation.setText("");
-
-            clear = false;
-        }
-
         switch (id) {
             case R.id.bClearAll:
                 answer.setText("");
@@ -156,7 +149,7 @@ public class CalculatorActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.bEqual:
-                expression = "";
+                expression = answer.getText().toString();
                 equation.setText(answer.getText());
                 answer.setText("");
 
@@ -212,6 +205,13 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void concatText(String text) {
+
+        if (clear && !isAMathematicalSign(lastIndexOf(text)) && !isAMathematicalSign(lastIndexOf(expression))) {
+            expression = "";
+            equation.setText("");
+
+            clear = false;
+        }
 
         if (expression.length() != 0) {
             if (isAMathematicalSign(lastIndexOf(text)) && isAMathematicalSign(lastIndexOf(expression))) {

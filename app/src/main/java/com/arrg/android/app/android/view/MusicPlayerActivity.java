@@ -1,22 +1,26 @@
 package com.arrg.android.app.android.view;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +30,7 @@ import com.afollestad.assent.PermissionResultSet;
 import com.arrg.android.app.android.R;
 import com.arrg.android.app.android.adapter.SongAdapter;
 import com.arrg.android.app.android.model.Song;
+import com.arrg.android.app.android.service.PlaySong;
 import com.arrg.android.app.android.util.BitmapUtil;
 import com.commit451.nativestackblur.NativeStackBlur;
 
@@ -34,11 +39,21 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.arrg.android.app.android.Constants.AUDIO_TO_PLAY_EXTRA;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
     private ArrayList<Song> songList;
+    private PlaySong playSong;
+    private SongAdapter songAdapter;
+
+    private int index = 0;
     private static Activity activity;
+
+    @Bind(R.id.bPlayStop)
+    ImageButton bPlayStop;
 
     @Bind(R.id.photoAlbum)
     ImageView photoAlbum;
@@ -57,6 +72,45 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @OnClick({R.id.bPreviousTrack, R.id.bPlayStop, R.id.bNextTrack})
+    public void OnClick(View view) {
+        int id = view.getId();
+
+        switch (id) {
+            case R.id.bPreviousTrack:
+                if (index > 0) {
+                    playSong(songAdapter.getSong(--index).getPathOfFile(), index);
+
+                    setColorTo(ContextCompat.getColor(this, R.color.background_light), index - 1);
+                    setColorTo(ContextCompat.getColor(this, R.color.holo_blue_bright), index);
+                }
+                break;
+            case R.id.bPlayStop:
+                if (isPlayServiceRunning()) {
+                    playSong = PlaySong.PLAY;
+
+                    if (playSong.isPlaying()) {
+                        playSong.onPause();
+                        bPlayStop.setImageResource(R.drawable.ic_play_arrow_24dp);
+                    } else {
+                        playSong.onResume();
+                        bPlayStop.setImageResource(R.drawable.ic_pause_24dp);
+                    }
+                } else {
+                    playSong(songAdapter.getSong(index).getPathOfFile(), index);
+                }
+                break;
+            case R.id.bNextTrack:
+                if (index < songAdapter.getItemCount()) {
+                    playSong(songAdapter.getSong(++index).getPathOfFile(), index);
+
+                    setColorTo(ContextCompat.getColor(this, R.color.background_light), index + 1);
+                    setColorTo(ContextCompat.getColor(this, R.color.holo_blue_bright), index);
+                }
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +158,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        if (isPlayServiceRunning() || playSong != null) {
+            playSong.onDestroy();
+        } else {
+            Intent play = new Intent(this, PlaySong.class);
+            stopService(play);
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Assent.handleResult(permissions, grantResults);
@@ -135,11 +200,41 @@ public class MusicPlayerActivity extends AppCompatActivity {
         new SearchFilesTask().execute();
     }
 
+    private void setColorTo(int color, int index) {
+        TextView nameOfTheSong = (TextView) songs.getChildAt(index).findViewById(R.id.nameOfTheSong);
+        TextView artistName = (TextView) songs.getChildAt(index).findViewById(R.id.artistName);
+
+        nameOfTheSong.setTextColor(color);
+        artistName.setTextColor(color);
+    }
+
     public void updateAlbumView(Bitmap photoAlbum, String artistName, String nameOfTheSong) {
-        this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 5));
+        this.photoAlbum.setImageBitmap(NativeStackBlur.process(photoAlbum, 10));
         this.miniPhotoAlbum.setImageBitmap(photoAlbum);
         this.artistName.setText(artistName);
         this.nameOfTheSong.setText(nameOfTheSong);
+    }
+
+    public void playSong(String pathOfFile, int layoutPosition) {
+        setColorTo(R.color.background_light, index);
+
+        index = layoutPosition;
+
+        Intent play = new Intent(this, PlaySong.class);
+        play.putExtra(AUDIO_TO_PLAY_EXTRA, pathOfFile);
+
+        stopService(play);
+        startService(play);
+
+        playSong = PlaySong.PLAY;
+
+        bPlayStop.setImageResource(R.drawable.ic_pause_24dp);
+
+        Song song = songAdapter.getSong(layoutPosition);
+
+        updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+
+        setColorTo(R.color.holo_blue_bright, index);
     }
 
     class SearchFilesTask extends AsyncTask<Void, Void, Void> {
@@ -148,7 +243,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            photoAlbum.setImageBitmap(NativeStackBlur.process(((BitmapDrawable) photoAlbum.getDrawable()).getBitmap(), 5));
+            photoAlbum.setImageBitmap(NativeStackBlur.process(BitmapUtil.getBitmapFromDrawable(photoAlbum.getDrawable()), 10));
         }
 
         @Override
@@ -195,7 +290,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     cursor.moveToFirst();
 
                     while (!cursor.isAfterLast()) {
-                        //MediaData media = new MediaData();
                         String title = cursor.getString(0);
                         String artist = cursor.getString(1);
                         String path = cursor.getString(2);
@@ -235,12 +329,27 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
 
         public void setAdapter() {
-            SongAdapter songAdapter = new SongAdapter(activity, songList);
+            songAdapter = new SongAdapter(activity, songList);
 
             songs.setAdapter(songAdapter);
             songs.setHasFixedSize(true);
             songs.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+            Song song = songAdapter.getSong(0);
+
+            updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+        }
+    }
+
+    private boolean isPlayServiceRunning() {
+        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo serviceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if (PlaySong.class.getName().equals(serviceInfo.service.getClassName())) {
+                return true;
+            }
         }
 
+        return false;
     }
 }

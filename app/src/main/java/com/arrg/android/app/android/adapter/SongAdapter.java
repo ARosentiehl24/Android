@@ -55,6 +55,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         return songs.size();
     }
 
+    public Song getSong(int index) {
+        return songs.get(index);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.photoAlbum)
@@ -81,7 +85,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
                 Toast.makeText(activity, "The bitmap is null.", Toast.LENGTH_SHORT).show();
             } else {
                 MusicPlayerActivity musicPlayerActivity = (MusicPlayerActivity) activity;
-                musicPlayerActivity.updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+                //musicPlayerActivity.updateAlbumView(song.getPhotoAlbum(), song.getArtistName(), song.getNameOfTheSong());
+                musicPlayerActivity.playSong(song.getPathOfFile(), getLayoutPosition());
             }
         }
     }
