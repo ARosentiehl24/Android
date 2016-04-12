@@ -26,16 +26,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView
             android:id="@+id/songs"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:fastScrollPopupBackgroundColor="@color/colorPrimary"
+            app:fastScrollPopupTextColor="@color/background_light"
+            app:fastScrollThumbActiveColor="@color/colorPrimary"
+            app:fastScrollThumbCurvatureEnabled="true"
+            app:fastScrollThumbInactiveColor="@color/colorPrimary"
+            app:fastScrollTrackColor="@color/colorPrimary" />
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardCornerRadius="0dp">
+            android:background="@color/white_glass75">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,6 +123,6 @@
                         android:src="@drawable/ic_skip_next_24dp" />
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

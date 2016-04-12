@@ -2,6 +2,7 @@ package com.arrg.android.app.android.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,13 +16,15 @@ import android.widget.Toast;
 import com.arrg.android.app.android.R;
 import com.arrg.android.app.android.model.Song;
 import com.arrg.android.app.android.view.MusicPlayerActivity;
+import com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
 
     private Activity activity;
     private ArrayList<Song> songs;
@@ -77,6 +80,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         songs.get(layoutPosition).setPlaying(b);
 
         notifyItemChanged(layoutPosition);
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return songs.get(position).getNameOfTheSong().substring(0, 1).toUpperCase(Locale.ENGLISH);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
