@@ -304,7 +304,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     if (bitmap == null) {
                         song.setPhotoAlbum(BitmapFactory.decodeResource(getResources(), R.drawable.ic_music_player_default_cover));
                     } else {
-                        song.setPhotoAlbum(BitmapUtil.getBitmapFromByteArray(bitmap, 0, bitmap.length, 100, 100));
+                        song.setPhotoAlbum(BitmapUtil.getBitmapFromByteArray(bitmap, 0, bitmap.length, 250, 250));
                     }
                     song.setNameOfTheSong(title);
                     song.setArtistName(artist);
