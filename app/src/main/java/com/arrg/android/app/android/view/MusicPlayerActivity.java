@@ -2,11 +2,11 @@ package com.arrg.android.app.android.view;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,8 +33,6 @@ import com.arrg.android.app.android.util.BitmapUtil;
 import com.commit451.nativestackblur.NativeStackBlur;
 import com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -273,8 +271,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.ALBUM_ID
+                MediaStore.Audio.Media.DURATION
         };
 
         String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
@@ -296,29 +293,22 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     String path = cursor.getString(2);
                     //String displayName = cursor.getString(3);
                     //String songDuration = cursor.getString(4);
-                    Long albumId = cursor.getLong(5);
-
-                    Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
-                    Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
-
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), albumArtUri);
-                        bitmap = Bitmap.createScaledBitmap(bitmap, 250, 250, true);
-                    } catch (FileNotFoundException exception) {
-                        exception.printStackTrace();
-                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_music_player_default_cover);
-                    } catch (IOException e) {
-
-                        e.printStackTrace();
-                    }
 
                     Song song = new Song();
 
+                    MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                    mediaMetadataRetriever.setDataSource(path);
+
+                    byte bitmap[] = mediaMetadataRetriever.getEmbeddedPicture();
+
+                    if (bitmap == null) {
+                        song.setPhotoAlbum(BitmapFactory.decodeResource(getResources(), R.drawable.ic_music_player_default_cover));
+                    } else {
+                        song.setPhotoAlbum(BitmapUtil.getBitmapFromByteArray(bitmap, 0, bitmap.length, 100, 100));
+                    }
                     song.setNameOfTheSong(title);
                     song.setArtistName(artist);
                     song.setPathOfFile(path);
-                    song.setPhotoAlbum(bitmap);
 
                     songList.add(song);
 
@@ -331,7 +321,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
                 long duration = (endTime - startTime);
 
-                Log.d("Songs", "Duration: " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds" + " - " + duration + " milliseconds");
+                Log.d("FolderFinish", "Duration: " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds" + " - " + duration + " milliseconds");
             }
         } catch (Exception e) {
             Log.e("Folder", e.toString(), e);
